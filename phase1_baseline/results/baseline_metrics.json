@@ -1,0 +1,128 @@
+{
+  "gpu_info": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "compute_capability": [
+      8,
+      0
+    ],
+    "total_memory_gb": 84.974239744,
+    "cuda_version": "12.6"
+  },
+  "attention_benchmarks": [
+    {
+      "config": {
+        "batch_size": 1,
+        "seq_len": 128,
+        "hidden_dim": 512,
+        "num_heads": 8
+      },
+      "metrics": {
+        "time_ms": 0.1620197296142578,
+        "gflops": 1863.9081099504856,
+        "bandwidth_gb_s": 11.32583052921302,
+        "operational_intensity": 164.57142857142858,
+        "total_flops": 301989888,
+        "total_bytes": 1835008
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "seq_len": 128,
+        "hidden_dim": 512,
+        "num_heads": 8
+      },
+      "metrics": {
+        "time_ms": 0.20667791366577148,
+        "gflops": 5844.647502845649,
+        "bandwidth_gb_s": 35.51435114576349,
+        "operational_intensity": 164.57142857142858,
+        "total_flops": 1207959552,
+        "total_bytes": 7340032
+      }
+    },
+    {
+      "config": {
+        "batch_size": 8,
+        "seq_len": 128,
+        "hidden_dim": 512,
+        "num_heads": 8
+      },
+      "metrics": {
+        "time_ms": 0.29927968978881836,
+        "gflops": 8072.445897363607,
+        "bandwidth_gb_s": 49.051320556896925,
+        "operational_intensity": 164.57142857142858,
+        "total_flops": 2415919104,
+        "total_bytes": 14680064
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "seq_len": 256,
+        "hidden_dim": 512,
+        "num_heads": 8
+      },
+      "metrics": {
+        "time_ms": 0.3462052345275879,
+        "gflops": 7753.650991623274,
+        "bandwidth_gb_s": 54.51785853485114,
+        "operational_intensity": 142.22222222222223,
+        "total_flops": 2684354560,
+        "total_bytes": 18874368
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "seq_len": 512,
+        "hidden_dim": 512,
+        "num_heads": 8
+      },
+      "metrics": {
+        "time_ms": 0.7668781280517578,
+        "gflops": 8400.879759560947,
+        "bandwidth_gb_s": 71.10119588170072,
+        "operational_intensity": 118.15384615384616,
+        "total_flops": 6442450944,
+        "total_bytes": 54525952
+      }
+    }
+  ],
+  "transformer_benchmarks": [
+    {
+      "config": {
+        "batch_size": 1,
+        "seq_len": 128
+      },
+      "metrics": {
+        "time_ms": 1.5922880172729492,
+        "throughput_samples_per_sec": 628.0270837638167,
+        "throughput_tokens_per_sec": 80387.46672176853
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "seq_len": 128
+      },
+      "metrics": {
+        "time_ms": 1.8197154998779297,
+        "throughput_samples_per_sec": 549.536452300968,
+        "throughput_tokens_per_sec": 281362.6635780956
+      }
+    },
+    {
+      "config": {
+        "batch_size": 4,
+        "seq_len": 256
+      },
+      "metrics": {
+        "time_ms": 3.136277198791504,
+        "throughput_samples_per_sec": 318.8493671367213,
+        "throughput_tokens_per_sec": 326501.7519480026
+      }
+    }
+  ]
+}
