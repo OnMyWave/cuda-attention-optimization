@@ -1,0 +1,4 @@
+# ninja log v5
+0	981	1762532752286421055	/data01/jonggeunlee/cuda-attention-optimization/phase5_complete/build/temp.linux-x86_64-cpython-312/layer_norm.o	4c27db1069fb6226
+0	1290	1762532752594422970	/data01/jonggeunlee/cuda-attention-optimization/phase5_complete/build/temp.linux-x86_64-cpython-312/mlp.o	286aac09d8896933
+1	12639	1762532763926493822	/data01/jonggeunlee/cuda-attention-optimization/phase5_complete/build/temp.linux-x86_64-cpython-312/transformer_ops_cuda.o	948a807939bf3821

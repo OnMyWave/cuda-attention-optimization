@@ -176,9 +176,23 @@ __global__ void layer_norm_kernel_small(
 
     __shared__ float s_mean;
     __shared__ float s_inv_std;
+    __shared__ float warp_sums[32];
+
+    int lane = threadIdx.x % WARP_SIZE;
+    int warp_id = threadIdx.x / WARP_SIZE;
+
+    if (lane == 0) {
+        warp_sums[warp_id] = sum;
+    }
+    __syncthreads();
 
     if (threadIdx.x == 0) {
-        s_mean = sum / HIDDEN_DIM;
+        float total_sum = 0.0f;
+        int num_warps = (blockDim.x + WARP_SIZE - 1) / WARP_SIZE;
+        for (int i = 0; i < num_warps; i++) {
+            total_sum += warp_sums[i];
+        }
+        s_mean = total_sum / HIDDEN_DIM;
     }
     __syncthreads();
 
@@ -191,8 +205,18 @@ __global__ void layer_norm_kernel_small(
 
     var_sum = warp_reduce_sum(var_sum);
 
+    if (lane == 0) {
+        warp_sums[warp_id] = var_sum;
+    }
+    __syncthreads();
+
     if (threadIdx.x == 0) {
-        float variance = var_sum / HIDDEN_DIM;
+        float total_var = 0.0f;
+        int num_warps = (blockDim.x + WARP_SIZE - 1) / WARP_SIZE;
+        for (int i = 0; i < num_warps; i++) {
+            total_var += warp_sums[i];
+        }
+        float variance = total_var / HIDDEN_DIM;
         s_inv_std = rsqrtf(variance + eps);
     }
     __syncthreads();

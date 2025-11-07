@@ -4,6 +4,7 @@
 
 #include <torch/extension.h>
 #include <cuda_runtime.h>
+#include <c10/cuda/CUDAStream.h>
 
 // Forward declaration of CUDA function
 extern "C" void attention_forward_cuda(

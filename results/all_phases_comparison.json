@@ -1,0 +1,330 @@
+{
+  "gpu_info": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_version": "12.4"
+  },
+  "comparisons": [
+    {
+      "config": {
+        "batch": 1,
+        "seq_len": 128,
+        "head_dim": 64
+      },
+      "results": [
+        {
+          "name": "Phase 1: PyTorch",
+          "time_ms": 0.06598234176635742,
+          "max_error": 0.0,
+          "correct": true,
+          "available": true,
+          "gflops": 64.80861220630895,
+          "bandwidth_gb_s": 3.972941744448058
+        },
+        {
+          "name": "Phase 2: Naive CUDA",
+          "time_ms": 2.3766517639160156,
+          "max_error": 4.470348358154297e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 1.7992640171036478,
+          "bandwidth_gb_s": 0.11029970986076001
+        },
+        {
+          "name": "Phase 3: Tiled",
+          "time_ms": 0.03412008285522461,
+          "max_error": 4.470348358154297e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 125.32865228213262,
+          "bandwidth_gb_s": 7.682982515379778
+        },
+        {
+          "name": "Phase 4: Optimized",
+          "time_ms": 0.034062862396240234,
+          "max_error": 4.470348358154297e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 125.53918546997971,
+          "bandwidth_gb_s": 7.6958887644432
+        }
+      ],
+      "baseline_time": 0.06598234176635742
+    },
+    {
+      "config": {
+        "batch": 4,
+        "seq_len": 128,
+        "head_dim": 64
+      },
+      "results": [
+        {
+          "name": "Phase 1: PyTorch",
+          "time_ms": 0.13030052185058594,
+          "max_error": 0.0,
+          "correct": true,
+          "available": true,
+          "gflops": 131.27265921171048,
+          "bandwidth_gb_s": 8.047366081943936
+        },
+        {
+          "name": "Phase 2: Naive CUDA",
+          "time_ms": 4.080662727355957,
+          "max_error": 3.5762786865234375e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 4.191695600161257,
+          "bandwidth_gb_s": 0.2569621823853644
+        },
+        {
+          "name": "Phase 3: Tiled",
+          "time_ms": 1.221766471862793,
+          "max_error": 1.7881393432617188e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 14.00013537277762,
+          "bandwidth_gb_s": 0.8582458466070572
+        },
+        {
+          "name": "Phase 4: Optimized",
+          "time_ms": 1.2261414527893066,
+          "max_error": 1.7881393432617188e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 13.950181654073162,
+          "bandwidth_gb_s": 0.8551835496749831
+        }
+      ],
+      "baseline_time": 0.13030052185058594
+    },
+    {
+      "config": {
+        "batch": 8,
+        "seq_len": 128,
+        "head_dim": 64
+      },
+      "results": [
+        {
+          "name": "Phase 1: PyTorch",
+          "time_ms": 11.335461139678955,
+          "max_error": 0.0,
+          "correct": true,
+          "available": true,
+          "gflops": 3.017944446940153,
+          "bandwidth_gb_s": 0.18500808870131205
+        },
+        {
+          "name": "Phase 2: Naive CUDA",
+          "time_ms": 4.426593780517578,
+          "max_error": 3.5762786865234375e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 7.72824291005985,
+          "bandwidth_gb_s": 0.47376201747493335
+        },
+        {
+          "name": "Phase 3: Tiled",
+          "time_ms": 1.4605021476745605,
+          "max_error": 1.7881393432617188e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 23.4233082467352,
+          "bandwidth_gb_s": 1.4359116166580965
+        },
+        {
+          "name": "Phase 4: Optimized",
+          "time_ms": 1.5317010879516602,
+          "max_error": 1.7881393432617188e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 22.334509173554657,
+          "bandwidth_gb_s": 1.3691653133213582
+        }
+      ],
+      "baseline_time": 11.335461139678955
+    },
+    {
+      "config": {
+        "batch": 4,
+        "seq_len": 256,
+        "head_dim": 64
+      },
+      "results": [
+        {
+          "name": "Phase 1: PyTorch",
+          "time_ms": 0.14655113220214844,
+          "max_error": 0.0,
+          "correct": true,
+          "available": true,
+          "gflops": 466.86492947474466,
+          "bandwidth_gb_s": 21.46505422872389
+        },
+        {
+          "name": "Phase 2: Naive CUDA",
+          "time_ms": 24.97509479522705,
+          "max_error": 4.470348358154297e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 2.7395124847764567,
+          "bandwidth_gb_s": 0.1259545970012164
+        },
+        {
+          "name": "Phase 3: Tiled",
+          "time_ms": 1.1007905006408691,
+          "max_error": 1.7881393432617188e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 62.15495497114738,
+          "bandwidth_gb_s": 2.8576990791332126
+        },
+        {
+          "name": "Phase 4: Optimized",
+          "time_ms": 1.2901639938354492,
+          "max_error": 1.7881393432617188e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 53.031695448731,
+          "bandwidth_gb_s": 2.438238871206023
+        }
+      ],
+      "baseline_time": 0.14655113220214844
+    },
+    {
+      "config": {
+        "batch": 4,
+        "seq_len": 512,
+        "head_dim": 64
+      },
+      "results": [
+        {
+          "name": "Phase 1: PyTorch",
+          "time_ms": 0.27252197265625,
+          "max_error": 0.0,
+          "correct": true,
+          "available": true,
+          "gflops": 1004.2431930624862,
+          "bandwidth_gb_s": 38.47675069204927
+        },
+        {
+          "name": "Phase 2: Naive CUDA",
+          "time_ms": 26.605281829833984,
+          "max_error": 3.129243850708008e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 10.28661668575558,
+          "bandwidth_gb_s": 0.39412324466496473
+        },
+        {
+          "name": "Phase 3: Tiled",
+          "time_ms": 2.3819661140441895,
+          "max_error": 1.7881393432617188e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 114.89598209914871,
+          "bandwidth_gb_s": 4.40214490801336
+        },
+        {
+          "name": "Phase 4: Optimized",
+          "time_ms": 22.46879816055298,
+          "max_error": 1.7881393432617188e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 12.180372712612614,
+          "bandwidth_gb_s": 0.4666809468433952
+        }
+      ],
+      "baseline_time": 0.27252197265625
+    },
+    {
+      "config": {
+        "batch": 4,
+        "seq_len": 128,
+        "head_dim": 128
+      },
+      "results": [
+        {
+          "name": "Phase 1: PyTorch",
+          "time_ms": 0.13980388641357422,
+          "max_error": 0.0,
+          "correct": true,
+          "available": true,
+          "gflops": 242.3545787544732,
+          "bandwidth_gb_s": 11.250502688795661
+        },
+        {
+          "name": "Phase 2: Naive CUDA",
+          "time_ms": 4.542608261108398,
+          "max_error": 4.172325134277344e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 7.458735169854322,
+          "bandwidth_gb_s": 0.34624689376499757
+        },
+        {
+          "name": "Phase 3: Tiled",
+          "time_ms": 1.3194465637207031,
+          "max_error": 1.7881393432617188e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 25.67903311253162,
+          "bandwidth_gb_s": 1.1920634326900559
+        },
+        {
+          "name": "Phase 4: Optimized",
+          "time_ms": 1.3223981857299805,
+          "max_error": 1.7881393432617188e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 25.621716942462868,
+          "bandwidth_gb_s": 1.189402720733286
+        }
+      ],
+      "baseline_time": 0.13980388641357422
+    },
+    {
+      "config": {
+        "batch": 8,
+        "seq_len": 256,
+        "head_dim": 64
+      },
+      "results": [
+        {
+          "name": "Phase 1: PyTorch",
+          "time_ms": 0.15154600143432617,
+          "max_error": 0.0,
+          "correct": true,
+          "available": true,
+          "gflops": 902.9546586836242,
+          "bandwidth_gb_s": 41.515156721086164
+        },
+        {
+          "name": "Phase 2: Naive CUDA",
+          "time_ms": 6.244940757751465,
+          "max_error": 3.2782554626464844e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 21.912004181969202,
+          "bandwidth_gb_s": 1.007448468136515
+        },
+        {
+          "name": "Phase 3: Tiled",
+          "time_ms": 2.142364978790283,
+          "max_error": 1.7881393432617188e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 63.87294851938263,
+          "bandwidth_gb_s": 2.936687288247477
+        },
+        {
+          "name": "Phase 4: Optimized",
+          "time_ms": 23.459351062774658,
+          "max_error": 1.7881393432617188e-07,
+          "correct": true,
+          "available": true,
+          "gflops": 5.833032961305425,
+          "bandwidth_gb_s": 0.26818542350829533
+        }
+      ],
+      "baseline_time": 0.15154600143432617
+    }
+  ]
+}

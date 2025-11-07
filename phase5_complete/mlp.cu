@@ -1,10 +1,11 @@
 /*
  * Phase 5: MLP (Feed-Forward Network) CUDA Implementation
- * Fuses Linear1 → GELU → Linear2 into fewer kernel launches
+ * Uses cuBLAS for matrix multiplications and custom GELU kernel
  */
 
 #include <cuda_runtime.h>
 #include <cuda.h>
+#include <cublas_v2.h>
 #include <math.h>
 #include <stdio.h>
 
@@ -20,14 +21,47 @@
 
 
 /*
- * GELU Activation Function
- * Approximation: x * 0.5 * (1 + tanh(sqrt(2/pi) * (x + 0.044715 * x^3)))
+ * GELU device function
  */
 __device__ inline float gelu(float x) {
     const float c = 0.797884560804236f;  // sqrt(2/pi)
     const float a = 0.044715f;
     float x_cubed = x * x * x;
     return 0.5f * x * (1.0f + tanhf(c * (x + a * x_cubed)));
+}
+
+/*
+ * GELU Activation Kernel
+ * Applies GELU element-wise: x * 0.5 * (1 + tanh(sqrt(2/pi) * (x + 0.044715 * x^3)))
+ */
+__global__ void gelu_kernel(
+    const float* input,
+    float* output,
+    int total_elements
+) {
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+
+    if (idx < total_elements) {
+        output[idx] = gelu(input[idx]);
+    }
+}
+
+
+/*
+ * Add bias kernel
+ */
+__global__ void add_bias_kernel(
+    float* data,
+    const float* bias,
+    int batch_seq,
+    int dim
+) {
+    int col = blockIdx.x * blockDim.x + threadIdx.x;
+    int row = blockIdx.y;
+
+    if (col < dim && row < batch_seq) {
+        data[row * dim + col] += bias[col];
+    }
 }
 
 
@@ -170,7 +204,7 @@ __global__ void linear_kernel(
 
 
 /*
- * Host function
+ * Host function using cuBLAS
  */
 extern "C" {
 
@@ -187,52 +221,89 @@ void mlp_forward_cuda(
     int ff_dim,
     cudaStream_t stream
 ) {
-    // Use fused kernel for common dimensions
-    if (hidden_dim == 512 && ff_dim == 2048) {
-        dim3 block(256);
-        dim3 grid(seq_len, batch);
+    // Create cuBLAS handle
+    cublasHandle_t handle;
+    cublasCreate(&handle);
+    cublasSetStream(handle, stream);
 
-        fused_mlp_kernel<512, 2048, 16><<<grid, block, 0, stream>>>(
-            x, W1, b1, W2, b2, out, batch, seq_len
-        );
-        CUDA_CHECK(cudaGetLastError());
-    }
-    else {
-        // Generic implementation: two separate kernels
-        // Allocate intermediate buffer
-        float* intermediate;
-        size_t inter_size = batch * seq_len * ff_dim * sizeof(float);
-        CUDA_CHECK(cudaMalloc(&intermediate, inter_size));
+    int batch_seq = batch * seq_len;
 
-        // Kernel 1: Linear + GELU
-        dim3 block1(256);
-        dim3 grid1(
-            (ff_dim + block1.x - 1) / block1.x,
-            seq_len,
-            batch
-        );
+    // Allocate intermediate buffer
+    float* intermediate;
+    size_t inter_size = batch_seq * ff_dim * sizeof(float);
+    CUDA_CHECK(cudaMalloc(&intermediate, inter_size));
 
-        linear_gelu_kernel<<<grid1, block1, 0, stream>>>(
-            x, W1, b1, intermediate, batch, seq_len, hidden_dim, ff_dim
-        );
-        CUDA_CHECK(cudaGetLastError());
+    // Step 1: Linear1 - x @ W1^T
+    // x: [batch_seq, hidden_dim]
+    // W1: [hidden_dim, ff_dim] stored as row-major
+    // Result: [batch_seq, ff_dim]
+    // We want: intermediate = x @ W1^T
 
-        // Kernel 2: Linear (no activation)
-        dim3 block2(256);
-        dim3 grid2(
-            (hidden_dim + block2.x - 1) / block2.x,
-            seq_len,
-            batch
-        );
+    const float alpha = 1.0f;
+    const float beta = 0.0f;
 
-        linear_kernel<<<grid2, block2, 0, stream>>>(
-            intermediate, W2, b2, out, batch, seq_len, ff_dim, hidden_dim
-        );
-        CUDA_CHECK(cudaGetLastError());
+    // cuBLAS uses column-major layout
+    // Our tensors are row-major, so we compute: C^T = B^T @ A^T
+    // where C = A @ B in row-major becomes C^T = B^T @ A^T in column-major
+    // Here: intermediate = x @ W1^T, so intermediate^T = W1 @ x^T
+    cublasSgemm(handle,
+        CUBLAS_OP_N,        // W1 not transposed (but will be seen as W1^T due to row-major)
+        CUBLAS_OP_N,        // x not transposed (but will be seen as x^T due to row-major)
+        ff_dim,             // rows of result in column-major = cols in row-major
+        batch_seq,          // cols of result in column-major = rows in row-major
+        hidden_dim,         // common dimension
+        &alpha,
+        W1, ff_dim,         // leading dimension in column-major view
+        x, hidden_dim,      // leading dimension in column-major view
+        &beta,
+        intermediate, ff_dim
+    );
 
-        // Free intermediate buffer
-        CUDA_CHECK(cudaFree(intermediate));
-    }
+    // Add bias1
+    dim3 block_bias1(256);
+    dim3 grid_bias1((ff_dim + block_bias1.x - 1) / block_bias1.x, batch_seq);
+    add_bias_kernel<<<grid_bias1, block_bias1, 0, stream>>>(
+        intermediate, b1, batch_seq, ff_dim
+    );
+
+    // Step 2: Apply GELU activation
+    int total_elements = batch_seq * ff_dim;
+    dim3 block_gelu(256);
+    dim3 grid_gelu((total_elements + block_gelu.x - 1) / block_gelu.x);
+    gelu_kernel<<<grid_gelu, block_gelu, 0, stream>>>(
+        intermediate, intermediate, total_elements
+    );
+
+    // Step 3: Linear2 - intermediate @ W2^T
+    // intermediate: [batch_seq, ff_dim]
+    // W2: [ff_dim, hidden_dim] stored as row-major
+    // Result: [batch_seq, hidden_dim]
+    // We want: out = intermediate @ W2^T
+
+    // Similar to step 1: out^T = W2 @ intermediate^T
+    cublasSgemm(handle,
+        CUBLAS_OP_N,        // W2 not transposed
+        CUBLAS_OP_N,        // intermediate not transposed
+        hidden_dim,         // rows of result in column-major = cols in row-major
+        batch_seq,          // cols of result in column-major = rows in row-major
+        ff_dim,             // common dimension
+        &alpha,
+        W2, hidden_dim,     // leading dimension in column-major view
+        intermediate, ff_dim, // leading dimension in column-major view
+        &beta,
+        out, hidden_dim
+    );
+
+    // Add bias2
+    dim3 block_bias2(256);
+    dim3 grid_bias2((hidden_dim + block_bias2.x - 1) / block_bias2.x, batch_seq);
+    add_bias_kernel<<<grid_bias2, block_bias2, 0, stream>>>(
+        out, b2, batch_seq, hidden_dim
+    );
+
+    // Cleanup
+    CUDA_CHECK(cudaFree(intermediate));
+    cublasDestroy(handle);
 }
 
 } // extern "C"

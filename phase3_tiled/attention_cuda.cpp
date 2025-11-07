@@ -4,6 +4,7 @@
 
 #include <torch/extension.h>
 #include <cuda_runtime.h>
+#include <c10/cuda/CUDAStream.h>
 
 // Forward declaration of CUDA function
 extern "C" void attention_forward_tiled_cuda(
@@ -50,7 +51,7 @@ torch::Tensor attention_forward(
     auto out = torch::empty_like(Q);
 
     // Get CUDA stream
-    cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+    cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
     // Launch CUDA kernels
     attention_forward_tiled_cuda(

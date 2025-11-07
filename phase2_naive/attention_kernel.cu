@@ -135,17 +135,16 @@ __global__ void matmul_av_kernel(
     // Compute weighted sum: attn[b, row, :] · V[b, :, col]
     float sum = 0.0f;
     int attn_offset = b * seq_len * seq_len + row * seq_len;
-    int v_offset = b * seq_len * head_dim;
 
     for (int k = 0; k < seq_len; k++) {
-        sum += attn[attn_offset + k] * V[v_offset + k * head_dim + col];
+        int v_idx = b * seq_len * head_dim + k * head_dim + col;
+        sum += attn[attn_offset + k] * V[v_idx];
     }
 
     // Write output
     int out_idx = b * seq_len * head_dim + row * head_dim + col;
     out[out_idx] = sum;
 }
-
 
 /*
  * Host function: Launch all three kernels
@@ -184,6 +183,8 @@ void attention_forward_cuda(
         Q, K, scores, batch, seq_len, head_dim, scale
     );
     CUDA_CHECK(cudaGetLastError());
+    CUDA_CHECK(cudaStreamSynchronize(stream));  // 추가
+    printf("Kernel 1 (Q@K^T) completed\n");  // 추가
 
     // Kernel 2: Softmax
     dim3 block2(256);
@@ -193,6 +194,8 @@ void attention_forward_cuda(
         scores, attn, batch, seq_len
     );
     CUDA_CHECK(cudaGetLastError());
+    CUDA_CHECK(cudaStreamSynchronize(stream));  // 추가
+    printf("Kernel 2 (Softmax) completed\n");  // 추가
 
     // Kernel 3: Attention @ V
     dim3 block3(16, 16);
@@ -202,10 +205,15 @@ void attention_forward_cuda(
         batch
     );
 
+    printf("Launching Kernel 3: grid(%d, %d, %d), block(%d, %d)\n",
+           grid3.x, grid3.y, grid3.z, block3.x, block3.y);  // 추가
+
     matmul_av_kernel<<<grid3, block3, 0, stream>>>(
         attn, V, out, batch, seq_len, head_dim
     );
     CUDA_CHECK(cudaGetLastError());
+    CUDA_CHECK(cudaStreamSynchronize(stream));  // 추가
+    printf("Kernel 3 (Attn@V) completed\n");  // 추가
 
     // Free intermediate buffers
     CUDA_CHECK(cudaFree(scores));

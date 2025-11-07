@@ -111,7 +111,7 @@ def compare_implementations(batch, seq_len, head_dim, num_runs=100):
 
     print(f"\nConfig: batch={batch}, seq_len={seq_len}, head_dim={head_dim}")
 
-    device = 'cuda:1'
+    device = 'cuda'
 
     # Create inputs
     Q = torch.randn(batch, seq_len, head_dim, device=device)

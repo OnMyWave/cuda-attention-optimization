@@ -1,0 +1,8 @@
+layer_norm.cu
+mlp.cu
+setup.py
+transformer_ops_cuda.cpp
+transformer_ops.egg-info/PKG-INFO
+transformer_ops.egg-info/SOURCES.txt
+transformer_ops.egg-info/dependency_links.txt
+transformer_ops.egg-info/top_level.txt

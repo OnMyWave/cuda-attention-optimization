@@ -1,0 +1,150 @@
+{
+  "layernorm": {
+    "b4_s128_h512": {
+      "pytorch": {
+        "time_ms": 0.13483524322509766,
+        "gflops": 15.55344099835202,
+        "bandwidth_gb_s": 15.583818812801924,
+        "operational_intensity": 0.9980506822612085,
+        "total_flops": 2097152,
+        "total_bytes": 2101248
+      },
+      "cuda": {
+        "time_ms": 0.03296375274658203,
+        "gflops": 63.61994085207581,
+        "bandwidth_gb_s": 63.74419854905251,
+        "operational_intensity": 0.9980506822612085,
+        "total_flops": 2097152,
+        "total_bytes": 2101248
+      }
+    },
+    "b8_s256_h512": {
+      "pytorch": {
+        "time_ms": 0.1138162612915039,
+        "gflops": 73.70307111490217,
+        "bandwidth_gb_s": 73.73905894259501,
+        "operational_intensity": 0.9995119570522206,
+        "total_flops": 8388608,
+        "total_bytes": 8392704
+      },
+      "cuda": {
+        "time_ms": 0.02646923065185547,
+        "gflops": 316.9192225619889,
+        "bandwidth_gb_s": 317.0739682761305,
+        "operational_intensity": 0.9995119570522206,
+        "total_flops": 8388608,
+        "total_bytes": 8392704
+      }
+    },
+    "b4_s512_h768": {
+      "pytorch": {
+        "time_ms": 0.11631011962890625,
+        "gflops": 108.1841549140046,
+        "bandwidth_gb_s": 108.23697920839619,
+        "operational_intensity": 0.9995119570522206,
+        "total_flops": 12582912,
+        "total_bytes": 12589056
+      },
+      "cuda": {
+        "time_ms": 0.035729408264160156,
+        "gflops": 352.1724151424529,
+        "bandwidth_gb_s": 352.34437432953416,
+        "operational_intensity": 0.9995119570522206,
+        "total_flops": 12582912,
+        "total_bytes": 12589056
+      }
+    },
+    "b8_s128_h1024": {
+      "pytorch": {
+        "time_ms": 0.09585857391357422,
+        "gflops": 87.51025242210616,
+        "bandwidth_gb_s": 87.5957116529871,
+        "operational_intensity": 0.9990243902439024,
+        "total_flops": 8388608,
+        "total_bytes": 8396800
+      },
+      "cuda": {
+        "time_ms": 0.012402534484863281,
+        "gflops": 676.3624007849289,
+        "bandwidth_gb_s": 677.0229109419453,
+        "operational_intensity": 0.9990243902439024,
+        "total_flops": 8388608,
+        "total_bytes": 8396800
+      }
+    }
+  },
+  "mlp": {
+    "b4_s128_h512_f2048": {
+      "pytorch": {
+        "time_ms": 0.3451824188232422,
+        "gflops": 6245.602726087735,
+        "bandwidth_gb_s": 42.558088705909654,
+        "operational_intensity": 146.75477485013243,
+        "total_flops": 2155872256,
+        "total_bytes": 14690304
+      },
+      "cuda": {
+        "time_ms": 20.809342861175537,
+        "gflops": 103.60116945462316,
+        "bandwidth_gb_s": 0.705947520688317,
+        "operational_intensity": 146.75477485013243,
+        "total_flops": 2155872256,
+        "total_bytes": 14690304
+      }
+    },
+    "b8_s256_h512_f2048": {
+      "pytorch": {
+        "time_ms": 1.2024259567260742,
+        "gflops": 7171.74223972988,
+        "bandwidth_gb_s": 27.914127944633513,
+        "operational_intensity": 256.92159375190676,
+        "total_flops": 8623489024,
+        "total_bytes": 33564672
+      },
+      "cuda": {
+        "time_ms": 3.121621608734131,
+        "gflops": 2762.5029887901646,
+        "bandwidth_gb_s": 10.75231921322169,
+        "operational_intensity": 256.92159375190676,
+        "total_flops": 8623489024,
+        "total_bytes": 33564672
+      }
+    },
+    "b4_s512_h768_f3072": {
+      "pytorch": {
+        "time_ms": 2.6488518714904785,
+        "gflops": 7315.5032520170325,
+        "bandwidth_gb_s": 21.382269280361903,
+        "operational_intensity": 342.12941367901504,
+        "total_flops": 19377684480,
+        "total_bytes": 56638464
+      },
+      "cuda": {
+        "time_ms": 24.20900583267212,
+        "gflops": 800.4328890634642,
+        "bandwidth_gb_s": 2.3395617478666373,
+        "operational_intensity": 342.12941367901504,
+        "total_flops": 19377684480,
+        "total_bytes": 56638464
+      }
+    },
+    "b8_s128_h1024_f4096": {
+      "pytorch": {
+        "time_ms": 2.4854278564453125,
+        "gflops": 6925.738589177494,
+        "bandwidth_gb_s": 23.63405393066274,
+        "operational_intensity": 293.04065267415103,
+        "total_flops": 17213423616,
+        "total_bytes": 58740736
+      },
+      "cuda": {
+        "time_ms": 3.892076015472412,
+        "gflops": 4422.684332877982,
+        "bandwidth_gb_s": 15.092391763800167,
+        "operational_intensity": 293.04065267415103,
+        "total_flops": 17213423616,
+        "total_bytes": 58740736
+      }
+    }
+  }
+}

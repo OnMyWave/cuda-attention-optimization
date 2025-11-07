@@ -4,6 +4,7 @@
 
 #include <torch/extension.h>
 #include <cuda_runtime.h>
+#include <c10/cuda/CUDAStream.h>
 
 // Forward declarations
 extern "C" void layer_norm_forward_cuda(
@@ -58,7 +59,7 @@ torch::Tensor layer_norm_forward(
     TORCH_CHECK(beta.size(0) == hidden_dim, "beta size must match hidden_dim");
 
     auto out = torch::empty_like(x);
-    cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+    cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
     layer_norm_forward_cuda(
         x.data_ptr<float>(),
@@ -107,7 +108,7 @@ torch::Tensor mlp_forward(
     TORCH_CHECK(b2.size(0) == hidden_dim, "b2 size must match hidden_dim");
 
     auto out = torch::empty_like(x);
-    cudaStream_t stream = at::cuda::getCurrentCUDAStream();
+    cudaStream_t stream = c10::cuda::getCurrentCUDAStream();
 
     mlp_forward_cuda(
         x.data_ptr<float>(),

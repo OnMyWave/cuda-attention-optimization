@@ -1,0 +1,216 @@
+{
+  "gpu_info": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_version": "12.4",
+    "compute_capability": [
+      8,
+      0
+    ]
+  },
+  "benchmarks": [
+    {
+      "config": {
+        "batch": 1,
+        "seq_len": 128,
+        "head_dim": 64,
+        "tile_size": 16
+      },
+      "results": {
+        "pytorch": {
+          "time_ms": 0.14224529266357422,
+          "gflops": 30.06232346903557,
+          "bandwidth_gb_s": 1.8429010555730616,
+          "operational_intensity": 16.3125,
+          "total_flops": 4276224,
+          "total_bytes": 262144
+        },
+        "naive": {
+          "time_ms": 0.17191171646118164,
+          "gflops": 24.874534953326403,
+          "bandwidth_gb_s": 1.5248757059510438,
+          "operational_intensity": 16.3125,
+          "total_flops": 4276224,
+          "total_bytes": 262144
+        },
+        "tiled": {
+          "time_ms": 0.05581855773925781,
+          "gflops": 76.60936027719119,
+          "bandwidth_gb_s": 4.696359250709039,
+          "operational_intensity": 16.3125,
+          "total_flops": 4276224,
+          "total_bytes": 262144
+        }
+      }
+    },
+    {
+      "config": {
+        "batch": 4,
+        "seq_len": 128,
+        "head_dim": 64,
+        "tile_size": 16
+      },
+      "results": {
+        "pytorch": {
+          "time_ms": 0.11129617691040039,
+          "gflops": 153.68808232982155,
+          "bandwidth_gb_s": 9.421491637077184,
+          "operational_intensity": 16.3125,
+          "total_flops": 17104896,
+          "total_bytes": 1048576
+        },
+        "naive": {
+          "time_ms": 0.16725778579711914,
+          "gflops": 102.26666530637893,
+          "bandwidth_gb_s": 6.269220861693727,
+          "operational_intensity": 16.3125,
+          "total_flops": 17104896,
+          "total_bytes": 1048576
+        },
+        "tiled": {
+          "time_ms": 0.04497528076171875,
+          "gflops": 380.3177147603054,
+          "bandwidth_gb_s": 23.314495924003396,
+          "operational_intensity": 16.3125,
+          "total_flops": 17104896,
+          "total_bytes": 1048576
+        }
+      }
+    },
+    {
+      "config": {
+        "batch": 8,
+        "seq_len": 128,
+        "head_dim": 64,
+        "tile_size": 16
+      },
+      "results": {
+        "pytorch": {
+          "time_ms": 3.1414079666137695,
+          "gflops": 10.889955193204626,
+          "bandwidth_gb_s": 0.6675834601198237,
+          "operational_intensity": 16.3125,
+          "total_flops": 34209792,
+          "total_bytes": 2097152
+        },
+        "naive": {
+          "time_ms": 0.17215967178344727,
+          "gflops": 198.70967251280035,
+          "bandwidth_gb_s": 12.181435862853661,
+          "operational_intensity": 16.3125,
+          "total_flops": 34209792,
+          "total_bytes": 2097152
+        },
+        "tiled": {
+          "time_ms": 0.0459599494934082,
+          "gflops": 744.3391991739794,
+          "bandwidth_gb_s": 45.62998922139337,
+          "operational_intensity": 16.3125,
+          "total_flops": 34209792,
+          "total_bytes": 2097152
+        }
+      }
+    },
+    {
+      "config": {
+        "batch": 4,
+        "seq_len": 256,
+        "head_dim": 64,
+        "tile_size": 16
+      },
+      "results": {
+        "pytorch": {
+          "time_ms": 0.08073806762695312,
+          "gflops": 847.4265734985117,
+          "bandwidth_gb_s": 38.9621413102764,
+          "operational_intensity": 21.75,
+          "total_flops": 68419584,
+          "total_bytes": 3145728
+        },
+        "naive": {
+          "time_ms": 62.361602783203125,
+          "gflops": 1.0971428081772872,
+          "bandwidth_gb_s": 0.05044334750240401,
+          "operational_intensity": 21.75,
+          "total_flops": 68419584,
+          "total_bytes": 3145728
+        },
+        "tiled": {
+          "time_ms": 61.304144859313965,
+          "gflops": 1.1160678312537458,
+          "bandwidth_gb_s": 0.051313463505919345,
+          "operational_intensity": 21.75,
+          "total_flops": 68419584,
+          "total_bytes": 3145728
+        }
+      }
+    },
+    {
+      "config": {
+        "batch": 4,
+        "seq_len": 512,
+        "head_dim": 64,
+        "tile_size": 16
+      },
+      "results": {
+        "pytorch": {
+          "time_ms": 0.1395869255065918,
+          "gflops": 1960.6301593559774,
+          "bandwidth_gb_s": 75.1199294772405,
+          "operational_intensity": 26.1,
+          "total_flops": 273678336,
+          "total_bytes": 10485760
+        },
+        "naive": {
+          "time_ms": 109.94669198989868,
+          "gflops": 2.4891911802598314,
+          "bandwidth_gb_s": 0.09537130958849928,
+          "operational_intensity": 26.1,
+          "total_flops": 273678336,
+          "total_bytes": 10485760
+        },
+        "tiled": {
+          "time_ms": 77.59191036224365,
+          "gflops": 3.527150378464871,
+          "bandwidth_gb_s": 0.13513986124386476,
+          "operational_intensity": 26.1,
+          "total_flops": 273678336,
+          "total_bytes": 10485760
+        }
+      }
+    },
+    {
+      "config": {
+        "batch": 4,
+        "seq_len": 128,
+        "head_dim": 128,
+        "tile_size": 16
+      },
+      "results": {
+        "pytorch": {
+          "time_ms": 0.13895273208618164,
+          "gflops": 243.8391206225837,
+          "bandwidth_gb_s": 11.31941759176404,
+          "operational_intensity": 21.541666666666668,
+          "total_flops": 33882112,
+          "total_bytes": 1572864
+        },
+        "naive": {
+          "time_ms": 0.2110600471496582,
+          "gflops": 160.53304477836542,
+          "bandwidth_gb_s": 7.452210976171703,
+          "operational_intensity": 21.541666666666668,
+          "total_flops": 33882112,
+          "total_bytes": 1572864
+        },
+        "tiled": {
+          "time_ms": 0.0633096694946289,
+          "gflops": 535.1806804626345,
+          "bandwidth_gb_s": 24.84397742960006,
+          "operational_intensity": 21.541666666666668,
+          "total_flops": 33882112,
+          "total_bytes": 1572864
+        }
+      }
+    }
+  ]
+}

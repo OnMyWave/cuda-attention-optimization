@@ -6,7 +6,7 @@
       0
     ],
     "total_memory_gb": 84.974239744,
-    "cuda_version": "12.6"
+    "cuda_version": "12.4"
   },
   "attention_benchmarks": [
     {
@@ -17,9 +17,9 @@
         "num_heads": 8
       },
       "metrics": {
-        "time_ms": 0.1620197296142578,
-        "gflops": 1863.9081099504856,
-        "bandwidth_gb_s": 11.32583052921302,
+        "time_ms": 0.16119718551635742,
+        "gflops": 1873.4191110883612,
+        "bandwidth_gb_s": 11.383623070849417,
         "operational_intensity": 164.57142857142858,
         "total_flops": 301989888,
         "total_bytes": 1835008
@@ -33,9 +33,9 @@
         "num_heads": 8
       },
       "metrics": {
-        "time_ms": 0.20667791366577148,
-        "gflops": 5844.647502845649,
-        "bandwidth_gb_s": 35.51435114576349,
+        "time_ms": 0.20594358444213867,
+        "gflops": 5865.48765416572,
+        "bandwidth_gb_s": 35.64098400968754,
         "operational_intensity": 164.57142857142858,
         "total_flops": 1207959552,
         "total_bytes": 7340032
@@ -49,9 +49,9 @@
         "num_heads": 8
       },
       "metrics": {
-        "time_ms": 0.29927968978881836,
-        "gflops": 8072.445897363607,
-        "bandwidth_gb_s": 49.051320556896925,
+        "time_ms": 0.29926061630249023,
+        "gflops": 8072.96039769566,
+        "bandwidth_gb_s": 49.054446860997935,
         "operational_intensity": 164.57142857142858,
         "total_flops": 2415919104,
         "total_bytes": 14680064
@@ -65,9 +65,9 @@
         "num_heads": 8
       },
       "metrics": {
-        "time_ms": 0.3462052345275879,
-        "gflops": 7753.650991623274,
-        "bandwidth_gb_s": 54.51785853485114,
+        "time_ms": 0.3450632095336914,
+        "gflops": 7779.312560233705,
+        "bandwidth_gb_s": 54.69829143914323,
         "operational_intensity": 142.22222222222223,
         "total_flops": 2684354560,
         "total_bytes": 18874368
@@ -81,9 +81,9 @@
         "num_heads": 8
       },
       "metrics": {
-        "time_ms": 0.7668781280517578,
-        "gflops": 8400.879759560947,
-        "bandwidth_gb_s": 71.10119588170072,
+        "time_ms": 0.7658171653747559,
+        "gflops": 8412.518333729642,
+        "bandwidth_gb_s": 71.19969943911808,
         "operational_intensity": 118.15384615384616,
         "total_flops": 6442450944,
         "total_bytes": 54525952
@@ -97,9 +97,9 @@
         "seq_len": 128
       },
       "metrics": {
-        "time_ms": 1.5922880172729492,
-        "throughput_samples_per_sec": 628.0270837638167,
-        "throughput_tokens_per_sec": 80387.46672176853
+        "time_ms": 1.6640424728393555,
+        "throughput_samples_per_sec": 600.9461995844974,
+        "throughput_tokens_per_sec": 76921.11354681567
       }
     },
     {
@@ -108,9 +108,9 @@
         "seq_len": 128
       },
       "metrics": {
-        "time_ms": 1.8197154998779297,
-        "throughput_samples_per_sec": 549.536452300968,
-        "throughput_tokens_per_sec": 281362.6635780956
+        "time_ms": 1.8121957778930664,
+        "throughput_samples_per_sec": 551.8167585417516,
+        "throughput_tokens_per_sec": 282530.1803733768
       }
     },
     {
@@ -119,9 +119,9 @@
         "seq_len": 256
       },
       "metrics": {
-        "time_ms": 3.136277198791504,
-        "throughput_samples_per_sec": 318.8493671367213,
-        "throughput_tokens_per_sec": 326501.7519480026
+        "time_ms": 3.1219482421875,
+        "throughput_samples_per_sec": 320.3128054740958,
+        "throughput_tokens_per_sec": 328000.3128054741
       }
     }
   ]

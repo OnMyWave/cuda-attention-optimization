@@ -18,12 +18,7 @@ setup(
                 'cxx': ['-O3'],
                 'nvcc': [
                     '-O3',
-                    '-arch=sm_70',
-                    '-arch=sm_75',
-                    '-arch=sm_80',
-                    '-arch=sm_86',
-                    '-arch=sm_89',
-                    '-arch=sm_90',
+                    '-gencode=arch=compute_80,code=sm_80',
                     '--use_fast_math',
                     '-lineinfo',
                 ]

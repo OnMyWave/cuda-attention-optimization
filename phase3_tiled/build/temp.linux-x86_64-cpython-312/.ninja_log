@@ -1,0 +1,5 @@
+# ninja log v5
+1	1011	1762527287055897817	/data01/jonggeunlee/cuda-attention-optimization/phase3_tiled/build/temp.linux-x86_64-cpython-312/attention_tiled.o	31560d45fd65a296
+2	908	1762527343776529235	/data01/jonggeunlee/cuda-attention-optimization/phase3_tiled/build/temp.linux-x86_64-cpython-312/attention_tiled.o	757a8786959b028e
+2	1008	1762527412077274138	/data01/jonggeunlee/cuda-attention-optimization/phase3_tiled/build/temp.linux-x86_64-cpython-312/attention_tiled.o	b1c662339ccc30e4
+1	11989	1762527539386624365	/data01/jonggeunlee/cuda-attention-optimization/phase3_tiled/build/temp.linux-x86_64-cpython-312/attention_cuda.o	b968ffb6498e24ef

@@ -1,0 +1,168 @@
+{
+  "gpu_info": {
+    "name": "NVIDIA A100 80GB PCIe",
+    "cuda_version": "12.4",
+    "compute_capability": [
+      8,
+      0
+    ]
+  },
+  "benchmarks": [
+    {
+      "config": {
+        "batch": 1,
+        "seq_len": 128,
+        "head_dim": 64
+      },
+      "pytorch": {
+        "time_ms": 0.15494346618652344,
+        "throughput_ms": 6453.966886194375,
+        "gflops": 27.598608093949654,
+        "bandwidth_gb_s": 1.691868695414538,
+        "operational_intensity": 16.3125,
+        "total_flops": 4276224,
+        "total_bytes": 262144
+      },
+      "cuda": {
+        "time_ms": 0.16292333602905273,
+        "throughput_ms": 6137.856149850004,
+        "gflops": 26.246847776536182,
+        "bandwidth_gb_s": 1.6090021625462794,
+        "operational_intensity": 16.3125,
+        "total_flops": 4276224,
+        "total_bytes": 262144
+      },
+      "speedup": 0.951020706812029
+    },
+    {
+      "config": {
+        "batch": 4,
+        "seq_len": 128,
+        "head_dim": 64
+      },
+      "pytorch": {
+        "time_ms": 0.08988142013549805,
+        "throughput_ms": 11125.769914321334,
+        "gflops": 190.30513730439534,
+        "bandwidth_gb_s": 11.666215313679409,
+        "operational_intensity": 16.3125,
+        "total_flops": 17104896,
+        "total_bytes": 1048576
+      },
+      "cuda": {
+        "time_ms": 0.15990734100341797,
+        "throughput_ms": 6253.621589384225,
+        "gflops": 106.96754690977188,
+        "bandwidth_gb_s": 6.557397511710153,
+        "operational_intensity": 16.3125,
+        "total_flops": 17104896,
+        "total_bytes": 1048576
+      },
+      "speedup": 0.5620843894438646
+    },
+    {
+      "config": {
+        "batch": 8,
+        "seq_len": 128,
+        "head_dim": 64
+      },
+      "pytorch": {
+        "time_ms": 0.1752758026123047,
+        "throughput_ms": 5705.294085641221,
+        "gflops": 195.1769239686164,
+        "bandwidth_gb_s": 11.96486890229066,
+        "operational_intensity": 16.3125,
+        "total_flops": 34209792,
+        "total_bytes": 2097152
+      },
+      "cuda": {
+        "time_ms": 0.18759727478027344,
+        "throughput_ms": 5330.56784098419,
+        "gflops": 182.3576170819582,
+        "bandwidth_gb_s": 11.179011008855676,
+        "operational_intensity": 16.3125,
+        "total_flops": 34209792,
+        "total_bytes": 2097152
+      },
+      "speedup": 0.9343195567078441
+    },
+    {
+      "config": {
+        "batch": 4,
+        "seq_len": 256,
+        "head_dim": 64
+      },
+      "pytorch": {
+        "time_ms": 0.09443998336791992,
+        "throughput_ms": 10588.735452273359,
+        "gflops": 724.4768747305951,
+        "bandwidth_gb_s": 33.309281596808965,
+        "operational_intensity": 21.75,
+        "total_flops": 68419584,
+        "total_bytes": 3145728
+      },
+      "cuda": {
+        "time_ms": 76.60078763961792,
+        "throughput_ms": 13.054696052274013,
+        "gflops": 0.8931968731430303,
+        "bandwidth_gb_s": 0.041066522903127824,
+        "operational_intensity": 21.75,
+        "total_flops": 68419584,
+        "total_bytes": 3145728
+      },
+      "speedup": 0.0012328852780500075
+    },
+    {
+      "config": {
+        "batch": 4,
+        "seq_len": 512,
+        "head_dim": 64
+      },
+      "pytorch": {
+        "time_ms": 0.14058351516723633,
+        "throughput_ms": 7113.209531077758,
+        "gflops": 1946.7313480847013,
+        "bandwidth_gb_s": 74.58740797259392,
+        "operational_intensity": 26.1,
+        "total_flops": 273678336,
+        "total_bytes": 10485760
+      },
+      "cuda": {
+        "time_ms": 122.99509286880493,
+        "throughput_ms": 8.130405666400604,
+        "gflops": 2.2251158937854885,
+        "bandwidth_gb_s": 0.08525348252051679,
+        "operational_intensity": 26.1,
+        "total_flops": 273678336,
+        "total_bytes": 10485760
+      },
+      "speedup": 0.0011430010083182133
+    },
+    {
+      "config": {
+        "batch": 4,
+        "seq_len": 128,
+        "head_dim": 128
+      },
+      "pytorch": {
+        "time_ms": 0.13981342315673828,
+        "throughput_ms": 7152.389072678286,
+        "gflops": 242.33804762806182,
+        "bandwidth_gb_s": 11.24973528640906,
+        "operational_intensity": 21.541666666666668,
+        "total_flops": 33882112,
+        "total_bytes": 1572864
+      },
+      "cuda": {
+        "time_ms": 0.21541357040405273,
+        "throughput_ms": 4642.233068809421,
+        "gflops": 157.2886607675045,
+        "bandwidth_gb_s": 7.301601273539862,
+        "operational_intensity": 21.541666666666668,
+        "total_flops": 33882112,
+        "total_bytes": 1572864
+      },
+      "speedup": 0.6490464964416554
+    }
+  ]
+}
