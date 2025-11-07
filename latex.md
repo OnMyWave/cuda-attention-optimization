@@ -1,6 +1,122 @@
-# CUDA Attention Optimization: Progressive Implementation of Transformer Attention Mechanisms
+# CUDA Attention Optimization: LaTeX Report
 
-## LaTeX Source Code for Final Report
+이 문서는 CUDA를 이용한 Transformer Attention 메커니즘 최적화 프로젝트의 최종 보고서 LaTeX 소스 코드를 포함하고 있습니다.
+
+## 프로젝트 개요
+
+본 프로젝트는 Transformer 모델의 핵심 연산인 Attention 메커니즘을 CUDA로 구현하고 점진적으로 최적화하는 과정을 다룹니다. PyTorch 베이스라인부터 시작하여 naive CUDA 구현, tiled 구현, 그리고 고급 최적화 기법까지 단계별로 발전시켰습니다.
+
+### 주요 성과
+
+- **최대 7.76배 속도 향상**: PyTorch 대비 대용량 배치 처리에서 달성
+- **메모리 계층 최적화**: Shared memory tiling과 warp-level primitives 활용
+- **완전한 구현**: Attention뿐만 아니라 LayerNorm, MLP 등 Transformer 핵심 컴포넌트 구현
+- **수치적 정확도**: 모든 구현이 PyTorch와 높은 정확도로 일치 (오차 < 10^-6)
+
+## 보고서 구성
+
+LaTeX 보고서는 다음과 같은 주요 섹션으로 구성되어 있습니다:
+
+1. **Problem Statement and Motivation**: Attention 메커니즘의 computational bottleneck 분석
+2. **Related Work**: FlashAttention, CUDA 최적화 기법 등 관련 연구 소개
+3. **Parallel Algorithm Design**: 단계별 구현 전략과 알고리즘 설계
+4. **Evaluation**: 성능 측정 방법론과 실험 결과 분석
+5. **Conclusion**: 결과 요약 및 향후 연구 방향
+6. **Appendix**: 소스 코드, 빌드 방법, 실행 가이드
+
+## 성능 결과 요약
+
+### Attention 커널 성능
+
+| Configuration | PyTorch (ms) | Tiled CUDA (ms) | Speedup |
+|--------------|--------------|-----------------|---------|
+| B=1, L=128, H=64 | 0.066 | 0.034 | **1.93×** |
+| B=8, L=128, H=64 | 11.34 | 1.46 | **7.76×** |
+| B=4, L=256, H=64 | 0.843 | 6.64 | 0.13× |
+
+### LayerNorm 성능
+
+| Configuration | PyTorch (ms) | CUDA (ms) | Speedup |
+|--------------|--------------|-----------|---------|
+| B=8, L=256, H=512 | 0.097 | 0.013 | **7.60×** |
+| B=4, L=512, H=768 | 0.089 | 0.036 | **2.44×** |
+
+### 주요 발견사항
+
+- **Large batch 최적화**: 배치 크기가 클수록 성능 향상이 크게 나타남 (커널 오버헤드 상각)
+- **Memory-bound 특성**: 연산 강도가 ~16 FLOPs/byte로 메모리 대역폭이 성능의 주요 병목
+- **Tiling의 효과**: Shared memory tiling을 통해 global memory 접근을 크게 줄임
+- **Warp-level 최적화**: Shuffle 명령어를 사용한 reduction이 shared memory bank conflict 제거
+
+## 최적화 기법 상세
+
+### 1. Shared Memory Tiling
+
+16×16 타일 크기를 사용하여 데이터를 shared memory에 로드하고 재사용합니다. 각 요소를 한 번만 로드하고 16번 재사용하여 global memory 트래픽을 대폭 감소시켰습니다.
+
+### 2. Warp-Level Primitives
+
+`__shfl_down_sync` 명령어를 사용한 warp reduction으로 softmax 연산의 max/sum 계산을 최적화했습니다. Shared memory bank conflict를 피하고 synchronization 오버헤드를 줄였습니다.
+
+### 3. Coalesced Memory Access
+
+모든 global memory 접근을 coalesced pattern으로 구현하여 메모리 대역폭 활용률을 극대화했습니다.
+
+### 4. cuBLAS Integration
+
+MLP의 선형 변환은 고도로 최적화된 cuBLAS GEMM 루틴을 사용하여 구현했습니다.
+
+## 제한사항 및 향후 개선 방향
+
+### 현재 제한사항
+
+- **작은 배치 크기**: 배치가 작을 때는 커널 launch 오버헤드로 인해 PyTorch보다 느림
+- **긴 시퀀스**: 시퀀스 길이가 512 이상일 때 O(N^2) 메모리 요구량으로 인한 성능 저하
+- **MLP 성능**: cuBLAS handle 생성 오버헤드로 인해 현재는 PyTorch보다 느림
+
+### 향후 개선 방향
+
+1. **Kernel Fusion**: 중간 결과를 메모리에 쓰지 않고 fused kernel로 처리
+2. **FlashAttention-2 스타일**: Online softmax와 더 효율적인 tiling 전략
+3. **Mixed Precision**: FP16/BF16 사용으로 메모리 대역폭 2배 향상
+4. **Persistent Kernel**: Kernel launch 오버헤드 제거를 위한 persistent thread 활용
+
+## LaTeX 문서 컴파일 방법
+
+보고서를 PDF로 컴파일하려면:
+
+```bash
+# LaTeX 코드를 별도 파일로 추출
+sed -n '/^```latex$/,/^```$/p' latex.md | sed '1d;$d' > report.tex
+
+# PDF 컴파일
+pdflatex report.tex
+bibtex report
+pdflatex report.tex
+pdflatex report.tex
+```
+
+또는 Overleaf 등의 온라인 LaTeX 편집기에 코드를 복사하여 사용할 수 있습니다.
+
+## 시스템 요구사항
+
+- **GPU**: NVIDIA A100 또는 compute capability 8.0 이상의 GPU
+- **CUDA**: Version 12.0 이상
+- **PyTorch**: 2.0 이상 (CUDA 지원)
+- **LaTeX**: pdflatex, amsmath, algorithm 등의 패키지
+
+## 참고 자료
+
+- FlashAttention 논문: Dao et al., 2022
+- FlashAttention-2: Dao, 2023
+- NVIDIA CUDA Programming Guide
+- Roofline Model: Williams et al., 2009
+
+---
+
+## LaTeX 소스 코드
+
+아래는 전체 LaTeX 문서의 소스 코드입니다. 위에서 설명한 모든 내용이 학술 논문 형식으로 작성되어 있습니다.
 
 ```latex
 \documentclass[10pt]{article}
